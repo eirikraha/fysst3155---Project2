@@ -28,7 +28,7 @@ n = 100
 test_size = 0.4
 
 
-# create 10000 random Ising states
+# create n random Ising states
 states=np.random.choice([-1, 1], size=(n,L))
 
 X = np.zeros((n, L*L))
@@ -37,7 +37,6 @@ print (X.shape)
 
 for i in range(n):
 	X[i] = np.outer(states[i], states[i]).ravel()
-
 
 # # # 3D-versjon av X[i], tror jeg.
 # # reshape Ising states into RL samples: S_iS_j --> X_p
