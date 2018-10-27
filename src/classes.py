@@ -103,6 +103,27 @@ class HomeMadeRidge():
 		plt.savefig('../figures/%s-%s-contour-beta-patch%s.png' %(task, method, patch))
 		plt.tight_layout()
 
+class HomeMadeLogReg():
+	def __init__(self):
+		self.a = "Empty for now"
+
+	def sigmoid(self, X, theta):
+		Xtheta = np.dot(X, theta)
+
+		return (np.exp(Xtheta)/(1 + np.exp(Xtheta)))
+
+	def NewtonStep(self, X, y, theta, beta_old):
+		p = self.sigmoid(X, theta)
+		W = np.zeros((X.shape[0], X.shape[0]))
+
+		for i in range(0, X.shape[0]):
+			W[i, i] = p[i]*(1 - p[i])
+
+		beta_new = np.linalg.inv(X.T @ W @ X) @ X.T @ W @ (X * beta_old + np.linalg.inv(W)@(y - p))
+
+		return beta_new
+
+	
 
 class MapDataImport():
 	#imports and maps data
