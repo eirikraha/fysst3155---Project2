@@ -5,6 +5,8 @@ import pickle,os
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from classes import HomeMadeLogReg
+
 
 import warnings
 #Comment this to turn on warnings
@@ -109,7 +111,7 @@ axarr[2].tick_params(labelsize=16)
 
 #fig.subplots_adjust(right=2.0)
 
-plt.show()
+#plt.show()
 
 ###### apply logistic regression
 
@@ -126,6 +128,14 @@ critical_accuracy=np.zeros(lmbdas.shape,np.float64)
 train_accuracy_SGD=np.zeros(lmbdas.shape,np.float64)
 test_accuracy_SGD=np.zeros(lmbdas.shape,np.float64)
 critical_accuracy_SGD=np.zeros(lmbdas.shape,np.float64)
+
+
+logreg = HomeMadeLogReg()
+logreg.fit(X_train, Y_train)
+
+foo
+
+
 
 # loop over regularisation strength
 for i,lmbda in enumerate(lmbdas):
