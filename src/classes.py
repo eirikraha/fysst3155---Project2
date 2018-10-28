@@ -112,18 +112,58 @@ class HomeMadeLogReg():
 
 		return (np.exp(Xtheta)/(1 + np.exp(Xtheta)))
 
-	def NewtonStep(self, X, y, theta, beta_old):
+	def log_likelihood(self, X, y, theta):
+		
+		ll = 0
+
+		for i in range(0, X.shape[0]):
+			ll += (y[i] * theta.T @ X[i] - np.log(1 + np.exp( theta.T @ X[i])))
+
+		return ll
+
+	def NewtonStep(self, X, y, theta):
 		p = self.sigmoid(X, theta)
 		W = np.zeros((X.shape[0], X.shape[0]))
 
 		for i in range(0, X.shape[0]):
 			W[i, i] = p[i]*(1 - p[i])
 
-		beta_new = np.linalg.inv(X.T @ W @ X) @ X.T @ W @ (X * beta_old + np.linalg.inv(W)@(y - p))
 
-		return beta_new
+		print (np.linalg.inv(X.T @ W @ X))
+		theta_new = np.linalg.inv(X.T @ W @ X)# @ X.T @ W @ (X @ theta + np.linalg.inv(W)@(y - p))
 
-	
+		return theta_new
+
+	def GradientDescent(self, X, theta, eta):
+		a = "Come back later"
+		print (a)
+
+	def fit(self, X, y, tol = 1e-5, max_iter = 1e3):
+
+
+		tol_check = 5000
+		max_iter_check = 0
+		theta_old = np.zeros(X.shape[1])
+
+		ll_old = self.log_likelihood(X, y, theta_old)
+
+		ll_arr = np.zeros(int(max_iter))
+
+		while tol_check > tol and max_iter_check < max_iter:
+			theta_new = self.NewtonStep(X, y, theta_old)
+			ll_new = self.log_likelihood(X, y, theta_new)
+
+			tol = ll_old - ll_new
+			max_iter_check += 1
+
+			ll_arr[max_iter_check] = ll_old
+
+			ll_old = ll_new
+			theta_old = theta_new
+
+		plt.plot(ll_arr)
+		plt.show()
+
 
 class MapDataImport():
 	#imports and maps data
